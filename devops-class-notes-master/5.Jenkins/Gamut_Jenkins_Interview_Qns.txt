@@ -1,0 +1,480 @@
+GAMUT GURUS TECHNOLOGIES:
+Office: 944897 1000
+		944897 2000
+===============================================
+
+1. What is continuos integration?
+
+	- C.I integration is nothing but continous compilation, testing and deployment.
+	- C.I is a process which monitors the new changes coming into V.C.S like Git, checkouts the source code, builds the change, runs the test case to test the change and deploys it to given environment automatically (seemlessly) without any manual intervention.
+
+2. What is continuous delivery?
+
+
+3.
+#How do you change Jenkins HOME directory??
+
+Go to $USER_HOME/.bashrc and add below ENV variable.
+========
+export JENKINS_HOME=/home/praveen/jen/.jenkins
+
+Jenkins installation:
+=====================
+Approach:1
+	1. download JDK and setup JAVA_HOME Environment variable as shown below
+		export JAVA_HOME=/path/to/extracted/java/without/bin/dir
+		export PATH=$JAVA_HOME/bin:$PATH
+
+	2. download Tomcat
+	3. download jenkins.war
+	4. copy jenkins.war to $TOMCAT_HOME/webapps
+		[deploying jenkins to tomcat]
+	5. start Tomcat server using $TOMCAT_HOME/bin/startup.sh
+	6. Launch Jenkins using below URL
+				http://localhost:8080/jenkins	
+	7. command to shutdown tomcat:
+			$TOMCAT_HOME/bin/shutdown.sh
+
+Approach:2
+# Running jenkins direclty from command line. not suitable for production jenkins.
+	Jenkins.war comes with a light-weight server called "jetty". below command runs jenkins in jetty server.
+
+	- $ java -jar jenkins.war
+you can launch jenkins using below URL:
+				http://localhost:8080
+
+Approach:3
+	sudo apt-get install jenkins
+
+
+What is Jenkins?
+Jenkins is an open source automation tool written in Java with plugins built for continuous Integration Process. Jenkins is used to build, test and deploy your software projects continuously and it integrates changes to the project continuously. So it is also known as CI/CD tool. There are other similar tools in the market but Jenkins stands out with its vast plugin collection, easily configurable and of course it is free of cost.
+
+What is Continuous Integration?
+Continuous Integration is one of the best practices followed in Devops. Monitors the new changes coming into VCS like GIT, checkouts the source code, triggers the Build and generates a new artifact (with the new code) without any human intervention. In short, Jenkins continuously integrates the code(new code) to the Build files/artifact. Here Jenkins does Code Testing prior to build.
+
+What is meant by Deployment?
+Deployment means copying build files (artifacts) to any specific server/environment. It may be a physical machine or cloud.
+
+What is Continuous Delivery?
+Continuous Delivery is a practice followed in Devops. Build, Test, and Release of projects is automated without human intervention, which is not recommended for crucial/Big projects as there might be chances of having bugs with automated testings. It depends on the project whether to implement a continuous delivery or continuous deployment. In short, continuous delivery is releasing products/updates to the end-user/client automatically (automating deployment to production).
+
+What is Continuous Deployment?
+Continuous Deployment is one of the best practices followed in Devops. Build, Test, and Deployment of projects is automated without human intervention. Which means qualified changes in code are deployed to the Test, UAT, QA, etc., environments but not to the production as soon as the code is pushed to VCS(Version Control System) without any human intervention. Then here the code is thoroughly tested. In short, continuous deployment is deploying the updates/product to the specific environment (automating deployment to Testing environment).
+
+How to Migrate Jenkins from one machine to another?
+Install Jenkins in new machines and copy the .jenkins directory into the new machine, and then start Jenkins.
+
+What are the two components that you integrate with Jenkins?
+The two important components that I integrated with Jenkins are Version control tool and Build tool, in general GIT and Maven.
+
+Mention some important plugins of Jenkins?
+Here are some important plugins which are good to use in Jenkins:-
+1 Gits
+2 Maven
+3 Thin backup plugin
+4 Copy Artifact
+5 Shelve project
+6 Green Balls
+7 Amazon EC2
+8 Nexus
+9 Sonarqube and etc.
+
+What are the Jenkins Features?
+Jenkins comes with the following features…
+1. It is a Free open source.
+2. Easy to install on various operating systems
+3. Supports Build Pipeline
+4. Supports Master/Slave architecture
+5. Supports third party tool integration
+6. It has both GUI and CLI
+7. It has built-in test harness
+8. Easily upgradable
+9. Records build events/logs
+10. Has notifications alerts system (through mails)
+11. Supports configuring Environmental Variables
+12. Has vast collection of plugins
+
+What are the advantages of Jenkins? Why do we use Jenkins?
+Jenkins is an automation tool. It saves human time, just one click triggers the Code Build, Tests it and Deploys it to the specified environment.
+The Advantages of Jenkins are as follows:
+1. Jenkins is free of cost, easy to install and requires almost zero maintenance (easily upgradable).
+2. Easy to install on various operating systems as it is platform independent.
+3. Execution sequence of jobs can be managed using the build pipeline.
+4. Computing power is not limited, we can add any number of machines to it, as it supports Master/Slave architecture.
+5. Third party tool integration is very easy, GIT, Maven, Docker, Nexus, Sonarqube etc can be easily integrated.
+6. It has both a Graphical User interface and Command line interface.
+7. Jenkins test the code before code build as it has built-in test harness.
+8. Records each and every build events/logs whether the build is success of fail, and notifies all users with an email.
+9. Jenkins has more than 1000 plugins used for integrations of hundreds of tools and services. And more than 1500 communities contribute to Jenkins plugins.
+
+What is Jenkinsfile?
+The Jenkinsfile is a text file written in a groovy script. where all the stages of the pipeline are defined. And it is stored in the root directory of the project and pushed into a source code repository. This file triggers the build of jobs in the pipeline.
+
+What is SCM? Which SCM tools are supported in Jenkins?
+SCM is a source code management tool that manages the versions of the project code and specifies the path of source code to jenkins (of course to the latest version). And Jenkins supports almost all SCM tools like,
+1 CVS
+2 Git
+3 Perforce
+4 AccuRev
+5 Subversion
+6 Clearcase
+7 RTC
+8 Mercurial.
+
+List some CI Tools that you know?
+Here are some Popular CI Tools in the market,
+1. Jenkins
+2. Gitlab CI
+3. Travis CI
+4. Circle CI
+5. Codeship
+6. GO CD
+7. Teamcity and
+8. Bamboo
+
+How to make sure that Jenkins build does not break before complete?
+Here are some major points to make sure that the project build does not break.
+Make sure you have a clean and successful installation of Jenkins.
+Make sure that all changes in config, POM and code are checked into the repository.
+Ensure specifying the correct branch/tag while configuring the job.
+Make sure you configured a correct version of your build tool like maven-3.6.
+
+How do you check Jenkins logs?
+If you are using Jenkins(jenkins.war file in webapps) in Apache Tomcat then Log files should be at $TOMCAT HOME/logs/catalina.2020-02-02.log.
+
+In Linux:
+Log files should be at this location /var/log/jenkins/jenkins.log, unless customized in
+(for *.deb) /etc/default/jenkins,
+(for */rpm) /etc/sysconfig/jenkins.
+
+In Windows:
+Log files should be at this location %JENKINS_HOME%/jenkins.out and %JENKINS_HOME%/jenkins.err, unless customized in %JENKINS_HOME%/jenkins.xml
+
+In Mac OS X:
+Log files should be at this location /var/log/jenkins/jenkins.log, unless customized in org.jenkins-ci.plist.
+
+In Docker:
+If you run Jenkins inside docker as a detached container, you can use $docker logs <containerId> to view the Jenkins logs.
+
+Where does Jenkins store global and job related Configuration?
+Jenkins global configurations are stored in "%USER_HOME%/.jenkins/config.xml"
+And Jenkins Job configurations are stored in "%USER_HOME%/.jenkins/jobs/%JOB_NAME%/config.xml".
+
+How do you change the port number of Jenkins?
+Go to %TOMCAT_HOME%/conf/server.xml, Change port number 8080 to whatever you want.
+For example : <connector port="xxxx" Protocol ="HTTP/1.1"
+Or
+Go to %USER_HOME%/.jenkins/config.xml and change the port number as per your need.
+
+I want to modify the JDK version from 1.8 to 1.10 in 1000 jobs? How do you do it?
+Jenkins stores all configuration data in .jenkins/jobs/job_name/config.xml file. We have to find the 1.7 version in all config.xml to replace it with 1.8 using the Linux Find and Sed command or with a small script of the same command. The command should be executed in jobs directory, like
+user@machine:~/.jenkins/jobs$ find . -name "config.xml" | xargs sed -i s/jdk1.8/jdk1.10/g
+Then to load changes you have to click on “Reload config from disk” option in manage jenkins.
+
+How did you set up, build and deploy for your Jenkins Job?
+It's very simple in Jenkins just we have to do the following,
+Configure GIT URL.
+Integrate Maven and specify the build command "mvn install"
+Go to the execute bash section and write a script to deploy. Ensure the following while writing the script,
+Before copying the war file checks for disk space of the target server.
+Copy war files to only those servers which are specified to do so.
+
+
+2. Why we need continous Integration?
+	Refer c.i feature.
+
+3. Have you created jenkins job or just worked on existing jenkins environment? 
+- How do you create a new build/jenkins job?
+
+4. How do you install jenkins? What are the different ways?
+	1. java -jar jenkins.war  [http://localhost:8080] [uses jetty server]
+	2. yum install jenkins[RHEL] OR apt-get install jenkins
+													[Ubuntu]
+	3. Deploy jenkins.war in tomcat like any other web applications. [Production approach]
+
+5. How do you setup a crontab in linux?
+	Note: Refer Google and setup a simple crontab.
+  - creating a new crontab.	
+	crontab -e
+		====
+		* * * * * `command/any-script`
+		Minute   Hour	 DOM	 Month  DOW	
+		0-59	 0-23	1-31	1-12	0-7
+		====
+  - list all crontabs
+	crontab -l
+  - remove all crontabs
+	crontab -r	
+
+6. How do you migrate jenkins from one server to another?
+	- Install Jenkins in the new machine.
+	- Copy .jenkins to new machine's $USER_HOME dir.
+	- Start jenkins server in the new machine.
+	[ Note: Usually, we don't copy workspace from old jenkins server to new as it contains large size of source code.]
+	[command to exclude workspace.
+		tar --exclude=workspace -cvf jenkins.tar .jenkins]
+
+7. How do you start/stop jenkins?
+Here are the commands to start, stop and to restart the jenkins:
+Start Jenkins: > jenkins.exe start or $ sudo service jenkins start
+Stop Jenkins: > jenkins.exe stop or $ sudo service jenkins stop
+Restart Jenkins: > jenkins.exe restart or $ sudo service jenkins restart
+
+8. Jenkins is running some jobs and I want to restart it. How do you restart?
+   - How do you restart the jenkins without interrupting running jobs?
+   Any plugin depending on Durable Task Plugin should be able to do this.
+
+In the current update site, I found several Docker-related plugins, and of course Pipeline Durable Task Step plugin, which underlies sh/bat Pipeline build steps.
+
+9. What is the default port number of jenkins?
+8080
+
+10. How do you change the port number for Jenkins?
+	Go to $TOMCAT_HOME/conf/server.xml
+	Change port number in this line: [ port="8080" protocol="HTTP/1.1" ] 
+
+p
+11. How do you check Jenkins logs?
+	How do you check your Application logs?
+	$TOMCAT_HOME/logs/catalina.2017-08-08.log
+
+
+12. What challenges you faced while working with Jenkins?
+	- What are the common issues you see in Jenkins?
+		- compilation
+		- deployment
+		- jdk or maven installation
+		- disk space
+		- port change
+		- slave node configuration issues
+
+
+14. Where does Jenkins store global and job related configurations?
+	Global configurations: $JENKINS_HOME/.jenkins/config.xml
+	Job configurations: $JENKINS_HOME/.jenkins/jobs/job_name/config.xml
+
+
+15. Where Jenkins stores all plugins data?
+	$JENKINS_HOME/.jenkins/plugins
+
+16. I want to modify JDK version from 1.7 to 1.8 in 1000 jobs? How do you do it?
+	Jenkins stores all configuration data in .jenkins/jobs/
+	job_name/config.xml
+	we can find 1.7 in all config.xml and replace it with 
+	1.8 using some linux command or small script.
+	Then to load the changes, we need to run "Reload configurations from disk"
+
+17. How do you setup build and deployment for your project?
+	- configure GIT URL
+	- configure maven build command i.e 'mvn install"
+	- go to post build section and call deploy.sh
+	
+	Deployment scritpt steps:
+		- before copying the war file, our script checks 
+		  for diskspace.
+		- copy war file to all tomcat servers in an environment(copy using scp)
+		- shutdown the tomcat
+		- start the tomcat
+
+18. How many builds you store in your jenkins.
+	How do you rotate logs for your Jenkins? 
+	It's a default Jenkins feature and you do not need a plugin to achieve what you require. Go to job config page and check the flag at "Discard old builds" (it is right under the job's description. Then select log rotation as strategy and specify the '7' as a value for 'Days to keep builds'.
+	
+
+19. How do you backup your jenkins data?
+jenkins has a backup plugin which can used to backup critical configuration settings related to Jenkins. Follow the steps given below to have a backup in place.
+
+Step 1 − Click on Manage Jenkins and choose the ‘Manage Plugins’ option.
+Manage Backup Plugin
+Step 2 − In the available tab, search for ‘Backup Plugin’. Click On Install without Restart. Once done, restart the Jenkins instance
+Backup Plugin1Backup Plugin2
+Step 3 − Now when you go to Manage Jenkins, and scroll down you will see ‘Backup Manager’ as an option. Click on this option.
+Backup Manager
+Step 4 − Click on Setup.
+Backup Manager Setup
+Step 5 − Here, the main field to define is the directory for your backup. Ensure it’s on another drive which is different from the drive where your Jenkins instance is setup. Click on the Save button.
+Backup Config Files
+Step 6 − Click on the ‘Backup Hudson configuration’ from the Backup manager screen to initiate the backup.
+Backup Hudson Configuration
+The next screen will show the status of the backup
+Backup Status
+To recover from a backup, go to the Backup Manager screen, click on Restore Hudson configuration.
+Restore Hudson Configuration
+The list of backup’s will be shown, click on the appropriate one to click on Launch Restore to begin the restoration of the backup.
+
+20. How do you configure different jenkins jobs to run with different JDKs?
+
+
+Here is where you should configure in your job:
+
+In JDK there is the combobox with the different JDK configured in your Jenkins. Job
+
+Here is where you should configure in the config of your Jenkins:
+
+Jenkins general confige
+Got it. I had error while configuring the JDK location in the manage jenkins section because of which it didn't have anything to show in the dropdown. – GuruKulki Mar 2 '15 at 14:08
+There is no such JDK section. – IgorGanapolsky Dec 1 '16 at 18:27
+3
+The JDK section is in Manage Jenkins -> Global Tool Configuration now
+
+21. What is the difference between "Build periodically"  and "Poll scm"?
+Poll SCM periodically polls the SCM to check whether changes were made (i.e. new commits) and builds the project if new commits where pushed since the last build, whereas build periodically builds the project periodically even if nothing has changed.
+
+
+22. How do you configure security for your jenkins? Are you using LDAP for authentication?
+Go to the Configure Global Security screen and select Enable security.
+Check the LDAP checkbox.
+Add the Server value as 127.0.0.1.
+Click on the Advance button and add the following details:
+User Search Base: ou=people,ou=mycompany,dc=nodomain
+User Search filter: uid={0}
+Group Search base: ou=groups,ou=mycompany,dc=nodomain
+
+23. What is matrix based security? How do you provide access to your users?
+Matrix-based security is one of the authorization strategies available for securing Jenkins. It allows you to grant specific permissions to users and groups. The available permissions are listed below with their descriptions, and are also available by hovering over the permission heading in the Jenkins UI.
+
+
+24. What is a plugin?
+	What plugins you installed? Name few plugins which you have used?
+====
+1. Thin Backup -
+Using Cron tab style/notion, we can schedule the backups for jenkins. We usually take backup for Jenkins home directory. Once we install this plugin, It adds "	ThinBackup" section to "manage jenkins".
+
+
+3. Job Configuration History plugin:
+we can check job configuration history. for example-
+who deleted a job or configuration
+who modifed jdk version
+who modified build trigger schedule
+user addition/deletion..etc.
+Once we install this plugin, we can see who has done what or who made what changes. It records the history of all user's modifications.
+
+
+4. Shelve project:
+    If we have large size of build log files, un-used jenkins jobs, Jenkins will become slow(as it has to scan all projects for generating reports). So, It's good idea to archive any un-used jenkins jobs so that jenkins don't scan the project. since this plugin archives the projects, we can restore them if we want in the future.
+
+5. Green balls plugin
+
+25. What are the different ways of installing a plugin?
+	
+26. What is "Reload configurations from the Disk"? when do you use this?
+
+p
+27. How do you take back up for only jobs? excluding WS?
+
+
+28. How do you set up distributed builds?
+	using master/slave
+
+29. How many slave nodes you have?
+
+---end---
+
+30. What is a label?
+    Label is a virtual name for one or more slave nodes using which we can tie a particular jenkins job to always run on a pariticular machine (Usually which has jdk6 or jdk8 or windows machine...etc.)
+
+
+31. what kind of problems you faced with your jenkins so far?
+        - Our Master server became slow. So to distribute the load, I implemented master/slave concept and today our builds are running in 4 slave nodes.
+        - Regular compile / deployment issues.
+		- Diskspace issues.
+
+p
+32. Suddenly my Jenkins instance became slow. What steps do you take to improve the performance?
+		- clean up old jobs. may be by using shelve plugin
+		- implement master/slave distributed concept.
+		- may be improve the computing power for ex: RAM 	
+			and CPU
+		- Make sure your Master doesn't run any jobs. Just 
+			keep it for serving jenkins trafic and schedule 
+			all your builds in slave nodes.
+
+33. how much you rate yourself in jenknins?
+
+34. Do you have experience with .Net builds?
+
+p
+35. How do you upgrade jenkins?
+	- take a test machine
+	- install the same old version of jenkins in the 
+	  test machine.
+	- copy .jenkins from old jenkins to test machine and bring the jenkins server up in test machine.
+	- deploy the new war file to test machine.	
+	- test few builds randomly in test Jenkins to see if everything works well as old jenkins.
+	-  finally repeat the same steps in production/original 
+		server.
+
+36. Can you name few Jenkins Features? 
+    - Jenkins is process improvment tool
+    - using jenkins we can compile, run tests, build the code and deploy efficiently by continuously integrating users changes with existing application.
+    - we can generate graps, statistics for our builds and test cases,
+    - jenkins provides fast feed back when some thing goes wrong.
+    - Jenkins is extensible coz it is plugin based and rich in features. 
+    - jenkins can act as a nice reporting tool. it sends test case and any other report in html format with some nice colors.
+    - helps to deliver the code to production very quickly with quality code by running the test cases.
+    - allows us to run builds in parellel. so builds can run faster.
+    - allows us to run different builds with different confiugrations seemlesly without much configuration complexity.
+
+37. How do you setup Jenkins from scratch?
+
+38. What are the prerequisites for Jenkins?
+
+39. how do you deploy an application in tomcat?
+    can you explain how the deployment happens for your 
+	project?
+        - we build war file as a final artifact
+        - we have shell script for deployment.
+		- It checks if tomcat/target machine is up and 
+			running and has enough free disk space
+        - it does shutdown the server 
+        - copies the war file to webapps location
+        - starts the server.
+		- It also sends the email notifications to all users
+
+40. What is the difference between web server and application server?
+	web server serves static content: ex..
+		html
+		images
+		javascript
+	application server serves dynamic content:
+		search results
+		date conversion
+		weather application
+
+41. What is parameterised build job? How do you set it up?
+
+42. What is build pipeline? have you created build pipelines?
+
+43.
+How do you set up the crontab?
+can you explain crontab syntax?
+how to create/remove crontabs?
+===========
+1.
+Create a new crontab:
+$ crontab -e
+
+2.
+List all crontabs available
+$ crontab -l
+
+3. Remove a crontab
+$ crontab -r
+
+4.
+Crontab Syntax:
+Min   Hour  DOM   Month  DOW
+0-59  0-23  1-31  1-12   0-7 
+
+ex:
+everyday at 12:00 am, Monday to Friday
+00 12 * * 1-5
+
+
+
+scp syntax:
+===========
+sshpass -p "gamut" scp gamutkart.war gamut@172.17.0.2:/home/gamut/Distros/apache-tomcat-8.5.11/webapps
+
+

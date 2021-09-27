@@ -1,0 +1,443 @@
+What is difference between Ansible Playbook and Ansible role?
+Have you heard of Ansible Galaxy. What is it used for?
+How will you store password, servername in a secure manner in Ansible playbook. How will you secure them.
+Have you used Ginger with Ansible
+Have you have experience in Ansible tower. How have you used it?
+1)maintain all the playbooks in Github/gitlab/bitbucker
+2)Establish connectivity between tower and git hub
+3)Run the playbooks from the tower(launch)
+4)we can see playbooks , inventories, hosts, failed hosts
+Command to check list of modules
+ansible-doc yum
+------------------------------------------------------------------
+1)playbook for java installation
+[]vi java.yml
+---
+- hosts: webserver
+  remote_user: root
+  become: yes 
+  tasks:
+  - name: installalling java jdk 8 and it's dependencies
+    yum: name=java-1.8.0-openjdk state=installed
+-------------------------------------------------------------
+2)Playbook for tomcat 
+[]vi tomcat.yml
+---
+- hosts: webserver
+  remote_user: root
+  become: yes
+  tasks: 
+    - name: removing older version of tomcat
+	  file: path=/usr/local/tomcat state=obsent
+	- name: download tomcat
+	  get_url: url=http://mirrr........
+	- name: create tomcat folder
+	  command: mkdir /usr/local/tomcat
+	- name: extract archive
+	  unarchive: src=/tmp/apache-tomcat-8.0.9.tar.gz dest=/usr/local/tomcat 
+	  
+----------------
+
+[]wget url
+	  
+------------------------------------------------------------
+3) role for mysql
+---
+- hosts: webserver
+  remote_user: root 
+  gather_facts: false
+  roles:
+    - mysql
+	
+[]ansible-galaxy init mysql
+initializing the role
+[]cd /etc/ansible/rloes
+[]ansible-galaxy init mysql
+[]cd roles
+[]mysql
+[]ls -la
+
+
+[]cd defaults
+[]vi main.yml 
+mysql_user: mysql
+mysql_port: 3306
+mysql_datadir: /var/lib/mysql
+mysql_bind: 0.0.0.0
+mysql_pkg: mysql_server
+mysql_pid: /var/run/mysql/mysqld.pid
+mysql_socket: /var/lib/mysqld/mysql.sock
+mysql_confpath: /etc/mycnf
+mysql_service: mysql
+
+[]cd handlers.yml
+[]vi main.yml
+---
+- name: restart mysql service
+  service: name="{{mysql_service}}" state=restart
+  
+[]cd tasks/
+[]vi main.yml
+---
+- name: install mysql servername
+  yum: name="{{mysql-pkg}}" state=present
+- name: create mysql config
+  template: src="{{mycnf.j2}}" dest="{{mysql_cnfpath}}"
+  notify:
+   - restart: mysql service
+   
+[]cd templates
+[]vi mycnf.j2
+user="{{mysql_user}}"
+pid_file="{{mysql_pid}}"
+socket="{{mysql_socket}"
+port="{{mysql=port}}"
+datadir="{{mysql_datadir}}"
+bind_address="{{mysql_bind}}"
+
+-----------------------------------------
+4)Playbook for Jenkins:
+---
+- hosts:
+  remote_user: root
+  become: yes
+  gather_facts: false 
+  tasks:
+    - name: Ensure Jenkins Repository is Installed
+      yum_repository:
+        name: jenkins
+        state: present
+        description: Official Jenkins Yum Repo
+        baseurl: http://pkg.jenkins.io/redhat
+	- name: Ensure Jenkins is Installed
+      yum :
+        name: jenkins
+        update_cache: yes
+        state: present
+    - name: Enable and Start the Jenkins Service
+      service:
+        name: jenkins
+        enabled: yes
+        state: started
+    - name: Open Firewall Port
+      firewalld:
+        zone: public
+        port: 8080/tcp
+        permanent: true
+        state: enabled
+        immediate: true	
+
+types or states:
+
+stop
+started
+enabel
+restart	
+----------------
+./startup.sh
+[]./stratup.sh
+[]./shutdown.sh	
+		
+Note:
+update_cache=yes tells Ansible's +module to refresh the caches before applying whatever change is necessary (if any)		
+When immediate is set to true on an Command component, the action is invoked in the Apply Request Values phase		
+-----------------------------------------
+5)Playbook for copyimg keys
+---
+- hosts: webserver 
+  remote_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: make a directory
+      file:
+        path: "/home/{{ansible_user/.ssh}}"
+        state: directroty
+    - name: create empty file  
+      file:
+        path: "/home/{{ansible_user}}/.ssh/authorized_keys"
+	    state: touch
+	- name:append the key
+	  lineinfile:
+	      path: "/home/{{ansible_user}}/.ssh/authorized_keys
+		  line: "{{pubkey}}"
+------------------
+7)Playbook for ping test
+---
+- hosts: webserver  
+  remote_user: root 
+  become: yes   
+  tasks:
+    - name: ping machine   
+      ping:
+----------------------------------------
+8)Playbook to install docker
+---
+- hosts: webserver
+  remote_user: root
+  become: yes
+  tasks:
+  tasks:
+    - name: Install yum utils
+      yum:
+        name: yum-utils
+        state: latest
+
+    - name: Install device-mapper-persistent-data
+      yum:
+        name: device-mapper-persistent-data
+        state: latest
+
+    - name: Install lvm2
+      yum:
+        name: lvm2
+        state: latest
+
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docer-ce.repo
+      become: yes
+	  
+    - name: Install Docker
+      package:
+        name: docker-ce
+        state: latest
+      become: yes
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+	  
+Note:
+yum-utils is a collection of tools and programs for managing yum repositories, installing debug packages, source packages, extended information from repositories and administration.
+devicemapper requires the lvm2 and device-mapper-persistent-data packages to be installed. Changing the storage driver makes any containers you have already created inaccessible on the local system.
+docker-lvm-plugin is a volume plugin, which creates logical volumes using LVM2. LVM2 is a userspace toolset that provides logical volume management in Linux.
+  
+-----------------------------------------------------------------
+9)Installing Nexus through playbook
+---
+- hosts: webserver
+  remote_user: root
+  become: yes
+  tasks:
+   - name: Install wget
+     yum: name=wget state=installed
+   - name: Create Nexus installation directory
+     file:
+      path={{ nexus_installation_dir }}
+      state=directory
+      become: true
+   - name: Download Nexus package
+     get_url: url="http://download.sonatype.com/nexus/oss/{{ nexus_package }}" dest={{ nexus_download_dir }}/{{ nexus_package }}
+-----------------------------------------------------------------------
+10)installing python
+---
+- hosts: webserver
+  remote_user: root
+  become: yes
+  - name: Install Python
+      raw: yum -y install python
+	  command: yum -y install python
+      when: check_python.rc != 0
+On Ubuntu systems we use the apt command (and we have to update its cache):
+
+    - name: Install Python
+      raw: apt -y update && apt install -y python-minimal
+      when: check_python.rc != 0	 
+	 
+---------------------------------------------
+
+11)installing Mongo DB
+---
+- hosts: webserver
+  remote_user: root
+  become: yes
+  - name: Add MongoDB repository
+    apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
+  - name: install mongodb
+    apt: pkg=mongodb-org state=latest update_cache=yes
+    notify:
+    - start mongodb
+  handlers:
+    - name: start mongodb
+      service: name=mongod state=restarted	 
+-------------------------------------------------------
+12)Playbook to install nginx
+---
+- hosts: all
+  tasks:
+    - name: ensure nginx is at the latest version
+      yum: name=nginx state=installed
+    - name: start nginx
+      service: name=nginx  state=started
+----------------------------------------------------
+13)Playbook for selinum
+
+---
+- hosts: webserver
+  remote_user: root
+  become: yes
+  ---
+- name: Download the gecko driver
+  get_url: url="https://github.com/mozilla/geckodriver/releases/download/v{{ gecko_version }}/geckodriver-v{{ gecko_version }}-macos.tar.gz" dest=/tmp mode=0777
+
+- name: Install the gecko driver
+  unarchive: src="/tmp/geckodriver-v{{ gecko_version }}-macos.tar.gz" dest=/usr/local/bin/ mode=0700 copy=no
+
+- name: Download the chrome driver
+  get_url: url="http://chromedriver.storage.googleapis.com/{{ chrome_version }}/chromedriver_mac32.zip" dest=/tmp mode=0777
+
+- name: Install the chrome driver
+  unarchive: src=/tmp/chromedriver_mac32.zip dest=/usr/local/bin/ mode=0700 copy=no
+
+- name: Download the safari extension
+  get_url: url="http://selenium-release.storage.googleapis.com/{{ safari_version }}/SafariDriver.safariextz" dest=/tmp mode=0777
+
+- name: Open the safari extension
+  command: open /tmp/SafariDriver.safariextz
+
+- name: Download selenium zip
+  get_url: url="https://github.com/SeleniumHQ/selenium/archive/selenium-{{ selenium_version }}.zip" dest=/tmp mode=0777
+
+- name: Unzip selenium
+  unarchive: src="/tmp/selenium-selenium-{{ selenium_version }}.zip" dest=/tmp mode=0700 copy=no
+
+- name: Build Selenium
+  command: ./go clean release
+  args:
+    chdir: "/tmp/selenium-selenium-{{ selenium_version }}/"
+    creates: "/tmp/selenium-selenium-{{ selenium_version }}/build/dist/selenium-server-standalone-{{ selenium_version }}.jar"
+
+- name: Move Selenium build
+  command: mv "selenium-server-standalone-{{ selenium_version }}.jar" /usr/local/bin/selenium-server.jar
+  args:
+    chdir: "/tmp/selenium-selenium-{{ selenium_version }}/build/dist/"
+    creates: /usr/local/bin/selenium-server.jar
+
+- name: Create script for selenium
+  template: src=selenium dest=/usr/local/bin/selenium mode=0700
+------------------------------------------------------------------------------------------------------
+
+Steps to perform to automate AWS infra through Ansible:
+1)Launch t2.micro and install ansible-doc
+2)install ansible
+-->yum install wget
+-->wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+-->rpm -ivh epel-release-latest7.noarch.rpm
+-->sudo yum -y update
+-->sudo yum install  python python-pip open-ssl ansible
+-->ansible --version
+4)yum -y install pyhthon-pip
+5)install boto3 package (pip install boto3)
+6)python -m pip install awscli
+
+Playboooks:
+1)Playbook for VPC
+[]vi vpc.yml
+---
+- hosts: localhost
+  connection: local
+  remote_user: root
+  become: yes 
+  gather_facts: no
+  tasks: 
+    - name: creating VPC  
+	  ec2_vpc_net:
+	     region: us-east-1
+		 name: myvpcyum 
+		 state: present
+		 cidr_block: 20.0.0.0/16
+
+[]vi awscredentials.yml
+aws_key: *****
+aws_id: *****
+aws_region: ****
+----------------------------------
+2)Playbook for IAM user
+[]vi iam.yml
+---
+- hosts: localhost
+  connection: local
+  remote_user: pavani
+  become: yes 
+  gather_facts: no
+  tasks: 
+  - name: creating coule of IAM users 
+	iam:
+	  region: us-east-1
+	  iam_type: users
+	  name: "{{item}}"
+      state: present
+	  password: "pavani@123"
+	  with_items:
+	    - test1
+		- test2
+-----------------------------------------
+3)Creating playbook for ec2 instance
+[]vi ec2.yml
+---
+- hosts: localhost
+  connection: local
+  remote_user: pavani
+  become: yes 
+  gather_facts: no
+  tasks: 
+    - name: creating ec2
+	  ec2
+	    region: us-east-1
+		image: ami-040903569d18d3cde
+		instance_type: t2.micro
+		count: 1
+		groupid: sg-5c5b0572
+		key_name: abc
+		vpc_subnet_id: subnet-cf11b8c1
+		assign_public_ip: yes
+-------------------------------
+---
+- hosts: localhost
+  connection: local
+  remote_user: root
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: creating VPC
+    ec2_vpc_net:
+      region: us-east-1
+      name: myvpcyum
+      state: present
+      cidr_block: 20.0.0.0/16
+-------------------
+
+---
+- hosts: localhost
+  connection: local
+  remote_user: pavani
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: creating ec2
+    ec2:
+      region: us-east-1
+      image: ami-040903569d18d3cde
+      instance_type: t2.micro
+      count: 1
+      group_id: sg-5c5b0572
+      key_name: abc
+      vpc_subnet_id: subnet-cf11b8c1
+      assign_public_ip: yes
+	  
+	  
+[]pip install boto
+-----------------------
+
+
+	  
+	  
+
+
+		
+	 

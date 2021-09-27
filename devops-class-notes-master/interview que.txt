@@ -1,0 +1,292 @@
+What is an Ansible?
+Ansible is an open-source software, powerful and agentless automation platform. It is used while deploying an application using ssh with zero downtime. It is also used in Configuration management, Cloud Provisioning, Application Deployment, Intra-Service Orchestration easily. It runs on many Unix-like systems, and can manage configurations of both Unix-like systems as well as Windows systems. And YAML is its declarative script. It is developed in Ruby, Python and PowerShell languages by Michael DeHaan and acquired by Red Hat in 2015.
+
+What is configuration management
+Managing configurations of the project like in IT-Infrastructure identifying the configuration, controlling configuration and configuration audit. So this is like a practice of managing and automating all the configurations required for the applications, so that the application can run seamlessly on readily tuned infrastructure. And this reduces the product release time as well.
+
+What is an Ansible Task?
+Ansible Tasks are small blocks of code in the playbook that can be used to execute any job. For example, if you want to install a package or update a software, you can follow the below code notation, it is a single task to install git software:
+
+tasks:
+  - name: Installing Git Application
+    yum: git
+    state: present
+	
+What are the advantages of using Ansible?
+The main three advantages of Ansible are:
+Agentless: Ansible is fast and performs all functions over SSH and doesn't require agent installation. As long as the machine has ssh and python installed.
+Very Simple: Has very simple architecture, simple installation and easily manageable.
+Idempotent: Architecture of Ansible is structured around the concept of idempotency. Means the things which you do on a daily basis regularly, can be automated.
+Declarative: No procedural approach, Ansible is declarative, needs to be defined at a high level in Yaml and Ansible makes the things done.
+Ansible Modules: Ansible has so many built in modules, which gives Ansible more power to execute various variety of tasks.
+Ansible Galaxy: A website where Ansible users share their customized roles to make it reusable.
+
+What is ansible-playbook?
+The Ansible Playbooks contains details of remote hosts, user variables, tasks, handlers in it. Playbook may have one or more tasks and these tasks are executed by Ansible. Usually playbooks are .yaml files.
+Here is a sample playbook:
+---
+   - name: Install Git
+     hosts: linux
+     gather_facts: false
+     become: true
+     vars:
+        version: 2.19.1
+     tasks:
+        - name: Install yum package
+          yum: git
+          state: present
+Ansible Playbooks vs Roles?
+Roles	                                 Playbooks
+Roles are reusable subsets of a Play.	Playbooks may contain one or more Plays.
+A Role is a set of tasks to be done.	Defines hosts, where roles should be executed. As it knows inventory.
+Example: general, git.	                Example: site.yml, myplay.yml.
+
+What is inventory or host-file in ansible?
+Inventories are the host files where information of target servers are written. Inventory also known as host-file. By default this file is located in "/etc/ansible/hosts". It contains the group of the servers, IP’s, and connection type etc.
+
+What is an Ansible Galaxy?
+Ansible Galaxy is a GUI service that lets Ansible users share their roles and modules. The Ansible Galaxy command line tool comes with normal Ansible. It is used to install roles from Galaxy or from a SCM system like GIT. Use this command to get roles from the Galaxy: $ ansible-galaxy install username.role_name
+
+What is the Use of Ansible?
+From the day one Ansible focused on multi-tier deployments. So it is used to manage and deploy applications to remote nodes. It manages how the entire IT-Infrastructure inter relates. You were using commands or scripts to manage infrastructure or some automation scripts which would take a lot of time and effort. Now Using Ansible there are reusable roles and inventories, you just need to write a YAML script and you are done. By this you can automate repetitive tasks.
+
+What is Ansible tower?
+Ansible Tower is a commercial product(Ansible with support and extra features) from RedHat . It is used in simplifying the job of ansible automation. Ansible is very easy to use in towers as it acts like a hub for all automation tasks. The Ansible tower is free for usage of upto 10 nodes.
+
+What are Ansible vaults?
+The Ansible vaults are used to keep your sensitive data like passwords or keys in encrypted files, rather than as plaintext in playbooks or roles so that the data can be protected. Not only about protecting data but also makes it access into the playbooks. The files can be encrypted and unencrypted as the Vault is implemented with file-level granularity. These are very user friendly.
+
+What about Ansible architecture?
+Ansible has a very simple architecture. It has control over the configurations of your IT-Infrastructure. Automates the cloud provisioning, configuration management, infrastructure as a code, application deployment, intra-service orchestration, and many other IT needs. It has no agent, just needs ssh and python installed in target servers. The SSH protocol and python interpreter enables Ansible to copy modules and executes them in target servers. At last it removes copied modules from target serves. The main components of Ansible architecture are:
+Ansible Modules
+Plugins & API
+Inventory/hosts file
+Playbooks
+
+How does Ansible work? Please explain in detail?
+There are so many configuration management tools like Puppet, Chef, CEFengine, Salt, etc. And the most popular tool is Ansible, in this tool infrastructure is categorized into two type:
+1. Ansible Server
+2. Target Servers
+As Ansible is an agentless tool so it doesn’t require any installations on target servers (remote nodes). So setup and managing nodes is very simple. Ansible can handle huge no.of nodes over SSH connection and entire operations can be executed by one single command “ansible”. Playbooks written in YAML contain one or more play, each play has one or more tasks.
+$ ansible-playbook playbook_name.yml
+
+Do we have any Web Interface/ Rest API etc for Ansible?
+Yes, Ansible Inc makes a great efficient GUI tool. It is very easy to use.
+
+What is the use of –start-at-task in ansible?
+start-at-task option, will start executing the play from the task you specify and subsequent tasks are executed. The prior tasks are skipped.
+
+Explain Ansible facts?
+Ansible Facts are unchangeable information about the remote hosts. Ansible collects almost all the information about the target hosts as it runs a playbook. The task of collecting this remote system information is called Gathering Facts. To generate facts, ansible runs the setup module. And the command is:
+$ ansible- m setup hostname
+this will print out a dictionary of all the facts available for that host.
+You can also see all the facts using the below command
+$ ansible all- m setup
+
+What is Role in Ansible?
+Roles are collections of certain tasks variables and handlers. These Roles are shared over Ansible Galaxy to be reusable/redistributable for other Ansible users as well.
+
+What are the different components of Ansible?
+Ansible consist of the following components:
+Inventories
+Modules
+Variables
+Plugins & APIs
+Hosts
+Playbooks
+Facts
+Roles
+Vault and
+Handlers
+
+How do I handle different machines needing different user accounts or ports to log in with?
+Let say, suppose these hosts have different ports, username and connection type as one is linux and other is windows machine.
+Setting variables in the inventory file is the easiest way for this as shown:
+[web_servers]
+abc.example.com ansible_port=8000 ansible_user=user1 ansible_connection=ssh
+xyz.example.com ansible_port=8001 ansible_user=user2 ansible_connection=winrm
+
+What is Kubernetes?
+Kubernetes is a portable, extensible, open-source container orchestration tool or system from Google, that is used to automate containerized applications tasks such as the management, monitoring, scaling, and deployment. It is easy to manage several containers using Kubernetes as it is a multi-container management solution.
+
+What is K8s?
+K8s is yet another term for Kubernetes. As Kubernetes has 8 characters in between K and S so it is termed as k8s.
+
+What does orchestration mean?
+The planning or coordination of all the nodes of a cluster to produce a desired output. For example, you have x no.of microservices for an application to run. If you place them in separate containers, this would be an obstacle for communication. Orchestration helps in such situations by enabling all services in individual containers to work seamlessly to accomplish goal outputs.
+
+What is the Docker role and How is it related to Kubernetes?
+Docker is used to bundle the application and its dependencies for an easy development. That bundle is known as docker image and can be run in docker containers and those containers are orchestrated by Kubernetes.
+
+What are the Difference between DockerSwarm and Kubernetes?
+Kubernetes	                                         Docker Swarm
+Setup is complicated, but its cluster is robust.	Installation is easy, but its cluster is not that robust.
+It has GUI (Kubernetes Dashboard).	                 It does not have any GUI.
+It is Highly scalable and scales fast.	            Highly scalable & scales 5x faster than Kubernetes.
+Kubernetes can do auto-scaling.	                    Docker swarm cannot do auto-scaling.
+No Auto load balancing for the traffic between 
+different containers and pods.	                     It does auto load balancing.
+Can deploy updates and does automatic 
+rollbacks.	                                         Deploys rolling updates, but not automatic rollback.
+Only the containers in the same pod can 
+share the storage volumes.	                         Storage volumes can be shared with all containers.
+In-built tools for logging and monitoring.	         3rd party tools like ELK stack should be used for logging and monitoring.
+
+What are the main components of Kubernetes architecture?
+Mainly there are two components: the Kubernetes master and the worker node. Each of these components has individual components in them.
+
+What is a node in Kubernetes?
+A node represents a single machine in a cluster, which could be a physical machine in a data center or a virtual machine from a cloud provider. The master in Kubernetes controls the nodes that have containers.
+
+What does the node status contain?
+A Node’s status mainly contains the following:
+Addresses
+Conditions
+Capacity and Allocatable
+Info
+To view a Node’s status and other details, here is the command:
+$ kubectl describe node <node-name>
+
+What process runs on Kubernetes Master Node?
+The Kube-apiserver process runs on the Kubernetes master node and serves pods, services, replicationcontrollers, and others.
+
+What is a pod in Kubernetes?
+Pods is a unit which contains one or more containers with a shared network & storage. This is because containers are not run directly in Kubernetes. Containers in the same pod share a local network and the same resources, allowing them to easily communicate with other containers in the same pod.
+
+What is the job of the kube-scheduler?
+The kube-scheduler assigns feasible nodes to newly created pods. If none of the nodes has suitable specifications for the pod, then the pod remains unscheduled until it is assigned.
+
+What is Kubelet?
+The kubelet is the primary “node agent” that runs on each worker node. It controls and maintains pods by watching pod specs through the Kubernetes API server. The kubelet runs on each worker node and enables the communication between the master and worker nodes and ensures all the containers up & running all the time.
+
+What is Kubectl?
+It is pronounce like “kube control”, “kube c-t-l”, or “kubie cuttle”,  “kube cuddle”.
+Kubectl is a CLI (command-line interface) to control the Kubernetes clusters. It allows you to command every possible Kubernetes operation.
+
+What is etcd?
+Kubernetes uses etcd as a distributed key-value database, stores all cluster data, including metadata and configuration data, and allows nodes in Kubernetes clusters to read and write data.
+
+What is a cluster of containers in Kubernetes?
+A cluster of containers is a set of machines(worker nodes & Kubernetes Master)  in the same network. At most 5000 nodes in a cluster can be handled by kubernetes v1.18, no more than that. A cluster is a set of worker nodes(physical or virtual machines) run as kubernetes agents and are managed by a Kubernetes Master.
+
+What is Minikube?
+Minikube makes Kubernetes to run locally. It is a simple single-node Kubernetes cluster inside a virtual machine
+
+What is the Google Container Engine?
+The Google Container Engine is an open-source management platform to manage containers and clusters that runs on Google public cloud services.
+
+What are DaemonSets?
+A DaemonSet is a set of pods that runs only once on a host. It ensures that nodes run a copy of the pod, when some nodes are removed from the cluster then those pods list is maintained in the DaemonSets, if you want ro remove those garbage containers(pods) you have to delete DaemonSets.
+
+What is ‘Heapster’ in Kubernetes?
+A Heapster is a performance monitoring system for kubernetes through the Kublet. This not only monitors the performance but also keeps information like pods, containers, nodes, cluster, events and signals, etc. Heapster runs like any other pod within a Kubernetes cluster. So it is easy to keep track of all this information.
+
+What is a Namespace in Kubernetes?
+In simple words Namespaces are the virtual clusters in kubernetes which are backed by the same physical clusters. As it supports both physical and virtual clusters.
+
+
+
+What is the need for DevOps?
+Companies are trying to release updates as soon as they are developed. Releasing small features like this has many advantages over full one time Big-Release like quick feedback from clients, better quality etc. To achieve this, companies need to:
+Increases the deployment frequency
+Very fast Deployments of new features
+Less complexity in SDLC process
+Lower failure rate of new releases
+Shortened lead time between fixes
+Improved communication and collaboration
+Will get more time to develop new features
+Rolling back a new update will not be as complex as in Big-Release.
+DevOps fulfills all these and helps in achieving a seamless software delivery cycle.
+
+If you vaguely remember a command, without googling how will you recollect it?
+This command lists all Docker commands. If you need help with one specific command, you can use the following syntax:
+$ docker < command > --help (or) simply $ docker --help
+
+What is Hyper-V or Hypervisor?
+Hypervisor is a software that makes virtualization possible. It divides the host system resources and allocates the resources to each divided virtual environment. The hypervisor allows you to create a virtual environment on your system so that guest virtual machines can be created and operated. It has control over resource allocation to multiple virtual machines.
+In short, hypervisor allows you to create multiple virtual servers on a single physical server. Some hypervisor software are Hyper-V, Xen, VMware Player, Virtual-PC, Oracle-Box, KVM, etc.
+
+What is Docker?
+Docker is an open-source lightweight OS-level containerization technology. It bundles the whole application and its dependencies together and forms a container so that your application works hassle free in any environment (Development, Test or Production). Containers are lightweight and portable and they can communicate with each other. Containerization technology like Docker will share the same base machine’s operating system kernel, and due to this it is extremely fast. With the help of containers any app can Build, Ship and Run.
+
+What is virtualization?
+Virtualization is the logical division of your physical machine into multiple machines(compute storage, servers, application, etc.). However, this allows multiple OS to run simultaneously on a single system. A software called Hypervisor makes this kind of splitting possible. The virtual environment created by the hypervisor is called Virtual Machine.
+
+What is containerization?
+Usually, code developed on one machine might not work perfectly fine on any other machine because of the dependencies. So an application is bundled with all its configuration files and dependencies so that it could work on any machine. To make you understand this bundle is called a container. Most popular containerization tool after rocker is Docker.
+
+What is a Docker Container?
+Container is a process, or Docker containers are runtime instances of the Docker image. one container is an instance of one image. Docker containers have the application and its dependencies in it. It shares the kernel of the host operating system. Docker containers are not limited to any specific IT infrastructure, they can run on any computer, infrastructure, and in any cloud. Docker containers are created using Docker images and then run it, or we can use the images that are already created in the Docker Hub.
+
+What are Registries and types?
+Docker's registry is nothing but a Docker Hub, which allows you to store images publicly/privately. Millions of images/registries can be stored to docker hub.
+There are two types of registry is
+  * Public Registry
+  * Private Registry
+Public registry can be accessed by any one, and private has restrictions to be defined.
+
+What is a Docker Hub?
+There has to be a centralized registry to store docker images. Docker Hub is one among those cloud registry which store repositories(images). We can also store or push images to Docker Hub, So that the images can be deployed to the host. Users can pull images from Docker Hub and use them to create customized images and containers.
+
+What are Docker Images?
+To make you understand, just assume Docker image is a kind of mini OS of Docker container. But keep in mind that containers do not have their own OS or a separate kernel, containers share the OS of the base machine. Docker images are used to create containers. Every docker image can be stored as the Docker registry in Docker Hub. You can create your own images by using an existing container or by writing Dockerfile.
+
+How to create a docker container from an image?
+Get required images from docker repository and run it to create a container. Use the following command:
+
+$ docker run -it <image_name> /bin/bash
+  -t (tty) flag for a terminal which is bin bash here.
+  -i flag for interactive mode, means we will get terminal in interactive mode.
+This is a basic command to create a container. This command is enough to create a container.
+But we can create a container by adding extra flags as per need, as follows
+
+$ docker run -itd <image_name> /bin/bash
+  -d flag to create a container in the detached mode.
+
+$ docker run -itd <image_name> --name <container_name> /bin/bash
+  --name option to give a name to your container.
+
+$ docker run -itd <image_name> --name <container_name> -h <host-name> /bin/bash
+  -h flag to provide a host name to your container.
+
+$ docker run -itd <image_name> --name <container_name> -h <host-name> -v <source-path>:<destination-path> /bin/bash
+  -v flag to allocate volume to your container.
+
+$ docker run -itd <image_name> --name <container_name> -h <host-name> -v <source-path>:<destination-path> -p8080:8080 /bin/bash
+  -p flag to expose the base container’s 8080 port on the 8080 port of the base machine.
+  
+What are docker volumes?
+Docker volumes are like virtual disks to store data and can be shared between containers, in simple docker volumes are just like normal directories which contain sub directories and files stored in host machines, but these directories are mounted to containers so that the data can be accessed in containers. We can create volumes by the following command:
+$ docker volume create <volume-name>
+Then mount this volume to the container using -v flag, or you can mount the existing directory to containers as volume.
+
+Where the docker volumes are stored?
+In a linux machine Docker volumes are stored at this location:
+/var/lib/docker/volumes
+
+What are the states of Docker containers?
+Important states of Docker container are as listed below:
+  1. Running
+  2. Paused
+  3. Restarting
+  4. Exit.
+  
+What is a Docker Swarm?
+Docker Swarm is an orchestration tool for Docker containers. Docker Swarm is used to scale up/down nodes in a cluster. Even clusters can be created by Docker Swarm. It uses a network for internal communication among containers. Docker Swarm is native clustering for Docker. It turns a container pool of Docker hosts into a single Docker host. Docker Swarm manages the Docker API as well.
+
+Do Docker support for IPV6?
+Yes, but only if you modify /etc/docker/daemon.json and set the ipv6 key to "true". IPv6 networking is supported only on Docker daemons run on Linux hosts.
+
+How does communication happen between Docker clients and the Docker Daemon?
+Communication between Docker client and Docker Daemon happens with the combination of Rest API, socket.IO, and TCP.
+
+What is a Dockerfile?
+Docker can build images by reading the instructions given in a file called Dockerfile. A Dockerfile is a text document that contains all the commands in a sequence. This "docker build -t <Dockerfile/path> .", command will execute several instructions written in Dockerfile in a sequence to create Docker images. The common commands used in Dockerfile are: FROM, MAINTENANCE, COPY, RUN, and CMD.
+
+How do you run multiple containers using a single service?
+By using an orchestration tool like docker-compose, you can run multiple containers using a single service. All docker-compose files use yaml language.
+
+What is Docker Compose?
+Docker Compose contains information about the services, networks, and volumes for setting up the Docker application. So, you can use Docker Compose to create separate containers, and host them and get them to communicate with each other. Make sure that each container should expose a port for communicating with others. Docker Compose is written in YAML format.
+
+
